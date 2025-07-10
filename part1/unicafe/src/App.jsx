@@ -3,16 +3,36 @@ import { useState } from 'react'
 
 export const Button = ({ text, onClick }) => <button onClick={onClick}>{text}</button>
 
+export const StatisticLine = ({ text, value }) => {
+  return (
+    <tr>
+      <td>
+        {text}
+      </td>
+      <td>
+       {value}
+      </td>
+    </tr>
+  )
+}
+
 export const Statistics = ({ good, neutral, bad, total }) => {
+  if(!total) {
+    return <div>No feedback given</div>
+  }
   return (
     <div>
-      <h1>statistics</h1>
-      <p>Good {good}</p>
-      <p>Neutral {neutral}</p>
-      <p>Bad {bad}</p>
-      <p>All {total}</p>
-      <p>Average {total ? (good - bad) / total : '0'}</p>
-      <p>Positive {total ? (good / total * 100) : '0'} %</p>
+      <h1>Statistics</h1>
+      <table>
+        <tbody>
+          <StatisticLine text='Good' value={good} />
+          <StatisticLine text='Neutral' value={neutral} />
+          <StatisticLine text='Bad' value={bad} />
+          <StatisticLine text='All' value={total} />
+          <StatisticLine text='Average' value={total ? (good - bad) / total : '0'} />
+          <StatisticLine text='Positive' value={total ? (good - bad) / total + ' %' : '0 %'} />
+        </tbody>
+      </table>
     </div>
   )
 }
@@ -25,7 +45,6 @@ const App = () => {
   const [total, setTotal] = useState(0)
 
   const handleGood = () => {
-    const updatedGood = good + 1
     setGood(good + 1)
     setTotal(total + 1)
   }

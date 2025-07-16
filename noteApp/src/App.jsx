@@ -1,4 +1,5 @@
 
+import './index.css'
 import { useState, useEffect } from "react"
 import noteServices from './services/notes'
 

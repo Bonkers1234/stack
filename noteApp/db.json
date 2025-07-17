@@ -34,11 +34,6 @@
       "id": "0af6",
       "content": "refactor check",
       "important": true
-    },
-    {
-      "id": "dd2a",
-      "content": "axios response.data refactor",
-      "important": false
     }
   ]
 }

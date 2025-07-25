@@ -12,3 +12,21 @@ Content-Type: application/json
   "name": "Sam",
   "number": "12345"
 }
+
+###
+GET https://part3-bitter-cloud-80.fly.dev/api/persons
+
+###
+GET https://part3-bitter-cloud-80.fly.dev/api/persons/3
+
+###
+POST https://part3-bitter-cloud-80.fly.dev/api/persons
+Content-Type: application/json
+
+{
+  "name": "John",
+  "number": "999"
+}
+
+###
+DELETE https://part3-bitter-cloud-80.fly.dev/api/persons/8803

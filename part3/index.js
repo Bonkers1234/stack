@@ -1,8 +1,10 @@
 
+require('dotenv').config()
 const express = require('express')
 const app = express()
 const cors = require('cors')
 let morgan = require('morgan')
+const Person = require('./models/person')
 
 morgan.token('data', (request) => {
   if(request.method === 'POST') {
@@ -38,10 +40,6 @@ let persons = [
   }
 ]
 
-const generateId = () => {
-  return String(Math.trunc(Math.random() * 10000))
-}
-
 app.get('/info', (request, response) => {
   const date = Date()
   response.send(`
@@ -51,42 +49,53 @@ app.get('/info', (request, response) => {
 })
 
 app.get('/api/persons', (request, response) => {
-  response.json(persons)
+  Person.find({}).then(persons => {
+    response.json(persons)
+  })
 })
 
 app.get('/api/persons/:id', (request, response) => {
-  const id = request.params.id
-  const person = persons.find(p => p.id === id)
+  // const id = request.params.id
+  // const person = persons.find(p => p.id === id)
 
-  if(!person) {
-    response.status(404).end()
-  } else {
+  // if(!person) {
+  //   response.status(404).end()
+  // } else {
+  //   response.json(person)
+  // }
+  Person.findById(request.params.id).then(person => {
     response.json(person)
-  }
+  })
 })
 
 app.post('/api/persons', (request, response) => {
   const body = request.body
-  const isNameTaken = persons.find(p => p.name.toLowerCase() === body.name.toLowerCase())
+  // const isNameTaken = persons.find(p => p.name.toLowerCase() === body.name.toLowerCase())
+
+  // if(!body.name || !body.number) {
+  //   return response.status(400).json({
+  //     error: 'Name or Number is missing'
+  //   })
+  // } else if(isNameTaken) {
+  //   return response.status(400).json({
+  //     error: 'Name already in phonebook, name must be unique'
+  //   })
+  // }
 
   if(!body.name || !body.number) {
     return response.status(400).json({
-      error: 'Name or Number is missing'
-    })
-  } else if(isNameTaken) {
-    return response.status(400).json({
-      error: 'Name already in phonebook, name must be unique'
+      error: 'Name or Number missing'
     })
   }
 
-  const person = {
+  const person = new Person({
     name: body.name,
     number: body.number,
-    id: generateId()
-  }
+  })
 
-  persons = persons.concat(person)
-  response.json(person)
+  person.save().then(savedPerson => {
+    response.json(savedPerson)
+  })
 })
 
 app.delete('/api/persons/:id', (request, response) => {
@@ -99,7 +108,7 @@ app.delete('/api/persons/:id', (request, response) => {
 
 
 
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT
 app.listen(PORT, () => {
   console.log(`Server is running on PORT ${PORT}.`)
 })

@@ -10,3 +10,5 @@ Content-Type: application/json
   "important": true
 }
 
+###
+DELETE http://localhost:3001/api/notes/68863b80df30fb606670bbf6

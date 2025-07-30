@@ -2,7 +2,10 @@
 GET http://localhost:3001/api/persons
 
 ###
-DELETE http://localhost:3001/api/persons/2
+GET http://localhost:3001/info
+
+###
+DELETE http://localhost:3001/api/persons/6888e30b4aeb8379d04c2c7e
 
 ###
 POST http://localhost:3001/api/persons
@@ -12,6 +15,17 @@ Content-Type: application/json
   "name": "Sam",
   "number": "12345"
 }
+
+###
+PUT http://localhost:3001/api/persons/6888ec372380e3ec39f842e3
+Content-Type: application/json
+
+{
+  "name": "Sam",
+  "number": "00000"
+}
+
+
 
 ###
 GET https://part3-bitter-cloud-80.fly.dev/api/persons

@@ -49,7 +49,7 @@ app.get('/api/persons', (request, response) => {
 
 app.get('/api/persons/:id', (request, response, next) => {
   Person.findById(request.params.id)
-  .then(person => {
+    .then(person => {
       if(!person) {
         response.status(404).end()
       } else {
@@ -67,18 +67,19 @@ app.post('/api/persons', (request, response, next) => {
     number: body.number,
   })
 
-  person.save().then(savedPerson => {
-    response.json(savedPerson)
-  })
-  .catch(error => next(error))
+  person.save()
+    .then(savedPerson => {
+      response.json(savedPerson)
+    })
+    .catch(error => next(error))
 })
 
 app.delete('/api/persons/:id', (request, response, next) => {
   Person.findByIdAndDelete(request.params.id)
-    .then(result => {
+    .then(() => {
       response.status(204).end()
     })
-    .catch(error => next(error))  
+    .catch(error => next(error))
 })
 
 app.put('/api/persons/:id', (request, response, next) => {
@@ -88,14 +89,15 @@ app.put('/api/persons/:id', (request, response, next) => {
     request.params.id,
     { name, number },
     { runValidators: true }
-  ).then(updatedPerson => {
-    if(!updatedPerson) {
-      return response.status(404).end()
-    }
+  )
+    .then(updatedPerson => {
+      if(!updatedPerson) {
+        return response.status(404).end()
+      }
 
-    response.json(updatedPerson)
-  })
-  .catch(error => next(error))
+      response.json(updatedPerson)
+    })
+    .catch(error => next(error))
 })
 
 app.use(errorHandler)

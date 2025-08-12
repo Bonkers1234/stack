@@ -11,3 +11,14 @@ Content-Type: application/json
   "url": "testurl.com",
   "likes": 5
 }
+
+###
+PUT http://localhost:3001/api/blogs/688e3192194df533c1949f85
+Content-Type: application/json
+
+{
+  "title": "Test Title",
+  "author": "Test Author",
+  "url": "testurl.com",
+  "likes": false
+}

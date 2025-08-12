@@ -6,6 +6,7 @@ const app = require('../app')
 const Blog = require('../models/blog')
 const supertest = require('supertest')
 const helper = require('./test_helper')
+const { title } = require('node:process')
 
 const api = supertest(app)
 
@@ -78,6 +79,40 @@ test('missing Title or Url default to 400', async () => {
     .post('/api/blogs')
     .send(newBlog)
     .expect(400)
+})
+
+test('deleting a blog succeeds with status code 204 if id is valid', async () => {
+  const blogsAtStart = await helper.blogsInDb()
+  const blogToDelete = blogsAtStart[0]
+
+  await api.delete(`/api/blogs/${blogToDelete.id}`).expect(204)
+
+  const blogsAtEnd = await helper.blogsInDb()
+
+  const titles = blogsAtEnd.map(b => b.title)
+  assert(!titles.includes(blogToDelete.title))
+
+  assert.strictEqual(blogsAtStart.length - 1, blogsAtEnd.length)
+})
+
+test('correctly updates a blog', async () => {
+  const blogsAtStart = await helper.blogsInDb()
+  const blogToUpdate = blogsAtStart[0]
+
+  const newBlog = {
+    title: blogToUpdate.title,
+    author: blogToUpdate.author,
+    url: blogToUpdate.url,
+    likes: 10
+  }
+
+  const updatedBlog = await api
+    .put(`/api/blogs/${blogToUpdate.id}`)
+    .send(newBlog)
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+  assert.strictEqual(updatedBlog.body.likes, newBlog.likes)
 })
 
 

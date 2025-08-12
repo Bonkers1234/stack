@@ -25,8 +25,38 @@ blogsRouter.post('/', async (request, response) => {
   response.status(201).json(savedBlog)
 })
 
+blogsRouter.delete('/:id', async (request, response) => {
+  const id = request.params.id
 
+  await Blog.findByIdAndDelete(id)
+  response.status(204).end()
+})
 
+blogsRouter.put('/:id', async (request, response) => {
+  const id = request.params.id
+  // title, author and url can be discarded since mongoose updates only provided variable if it cant find others
+  const { title, author, url, likes } = request.body
 
+  if(!Number.isFinite(likes)) {
+    return response.status(400).json({ error: 'likes is not a number' })
+  }
+
+  const updatedBlog = await Blog.findByIdAndUpdate(
+    id,
+    { 
+      title,
+      author,
+      url,
+      likes
+    },
+    { new: true, runValidators: true }
+  )
+
+  if(!updatedBlog) {
+    return response.status(404).end()
+  }
+
+  response.json(updatedBlog)
+})
 
 module.exports = blogsRouter

@@ -12,3 +12,35 @@ Content-Type: application/json
 
 ###
 DELETE http://localhost:3001/api/notes/68863b80df30fb606670bbf6
+
+###
+GET http://localhost:3001/api/users
+
+### 
+POST  http://localhost:3001/api/users
+Content-Type: application/json
+
+{
+  "username": "TEST user",
+  "name": "TEST name",
+  "password": "TEST password"
+}
+
+###
+POST http://localhost:3001/api/login
+Content-Type: application/json
+
+{
+  "username": "TEST user",
+  "password": "TEST password"
+}
+
+###
+POST http://localhost:3001/api/notes
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlRFU1QgdXNlciIsImlkIjoiNjg5Y2EzOWZlNzhkODJiMGJkN2I4OWI4IiwiaWF0IjoxNzU1MDk3MjM5fQ.uVEfWTUmM8th1f6_XvxhvpP52RBPpKXBJR2_UhyMzwg
+
+{
+  "content": "Authorization test",
+  "important": true
+}

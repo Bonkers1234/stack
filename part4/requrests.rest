@@ -4,18 +4,19 @@ GET http://localhost:3001/api/blogs
 ###
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlRlc3QxIiwiaWQiOiI2ODlkZjVlN2FmOWIwZDQyZWQ5NmJlYzIiLCJpYXQiOjE3NTUyNzEwMjYsImV4cCI6MTc1NTI4MTgyNn0.bp-fs8jQaBbfuXt-ZG3mdUx3nsrzO8vD74bovs235mM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlRlc3QxIiwiaWQiOiI2ODlkZjVlN2FmOWIwZDQyZWQ5NmJlYzIiLCJpYXQiOjE3NTUzNTUyMDgsImV4cCI6MTc1NTM2NjAwOH0.dljdSvmGkf7tsKXCrVJlzWRrYzE51EwaZOWSy0Ql0uA
 
 {
-  "title": "Test Title3",
-  "author": "Test Author3",
-  "url": "testurl.com3",
+  "title": "Test Exctractor",
+  "author": "Test Exctractor",
+  "url": "testurl.comExctractor",
   "likes": 5
 }
 
 ###
-DELETE http://localhost:3001/api/blogs/689f482fd86532becc037b51
+DELETE http://localhost:3001/api/blogs/689f487c89838df19c7a63a7
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlRlc3QxIiwiaWQiOiI2ODlkZjVlN2FmOWIwZDQyZWQ5NmJlYzIiLCJpYXQiOjE3NTUzNTY3NTMsImV4cCI6MTc1NTM2NzU1M30.F6f4vAYMnhbYzr6oPfe8ayTarjpqC6iCC8AXVVB1z7Q
 
 
 ###
@@ -37,9 +38,9 @@ POST http://localhost:3001/api/users
 Content-Type: application/json
 
 {
-  "username": "Test1",
-  "name": "Test1",
-  "password": "Test1"
+  "username": "Test2",
+  "name": "Test2",
+  "password": "Test2"
 }
 
 ###

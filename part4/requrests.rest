@@ -7,9 +7,9 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlRlc3QxIiwiaWQiOiI2ODlkZjVlN2FmOWIwZDQyZWQ5NmJlYzIiLCJpYXQiOjE3NTUzNTUyMDgsImV4cCI6MTc1NTM2NjAwOH0.dljdSvmGkf7tsKXCrVJlzWRrYzE51EwaZOWSy0Ql0uA
 
 {
-  "title": "Test Exctractor",
-  "author": "Test Exctractor",
-  "url": "testurl.comExctractor",
+  "title": "Test Title2",
+  "author": "Test Author2",
+  "url": "testurl.com2",
   "likes": 5
 }
 

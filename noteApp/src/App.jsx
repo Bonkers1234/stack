@@ -1,9 +1,9 @@
 
 import './index.css'
-import { useState, useEffect } from "react"
+import { useState, useEffect } from 'react'
 import noteServices from './services/notes'
 
-import Note from "./components/Note"
+import Note from './components/Note'
 import Notification from './components/Notification'
 import Footer from './components/Footer'
 
@@ -12,6 +12,8 @@ const App = () => {
   const [newNote, setNewNote] = useState('a new note...')
   const [showAll, setShowAll] = useState(true)
   const [errorMessage, setErrorMessage] = useState('some error...')
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
 
   useEffect(() => {
     noteServices
@@ -43,7 +45,7 @@ const App = () => {
 
   const toggleImportance = (id) => {
     const note = notes.find(n => n.id === id)
-    const changedNote = {...note, important: !note.important}
+    const changedNote = { ...note, important: !note.important }
 
     noteServices
       .update(id, changedNote)
@@ -57,9 +59,14 @@ const App = () => {
         )
         setTimeout(() => {
           setErrorMessage(null)
-        }, 5000);
+        }, 5000)
         setNotes(notes.filter(n => n.id !== id))
       })
+  }
+
+  const handleLogin = (event) => {
+    event.preventDefault()
+    console.log('logging with ', username, password)
   }
 
   const notesToShow = showAll
@@ -70,23 +77,49 @@ const App = () => {
     <div>
       <h1>Notes</h1>
       <Notification message={errorMessage} />
+
+      <h2>Login</h2>
+      <form onSubmit={handleLogin}>
+        <div>
+          <label>
+            username
+            <input
+              type="text"
+              value={username}
+              onChange={({ target }) => setUsername(target.value)}
+            />
+          </label>
+        </div>
+        <div>
+          <label>
+            password
+            <input
+              type='text'
+              value={password}
+              onChange={({ target }) => setPassword(target.value)}
+            />
+          </label>
+        </div>
+        <button type='submit'>login</button>
+      </form>
+
       <div>
         <button onClick={() => setShowAll(!showAll)}>
           show {showAll ? 'important' : 'all'}
         </button>
       </div>
       <ul>
-        {notesToShow.map(note => 
-          <Note 
+        {notesToShow.map(note =>
+          <Note
             key={note.id}
-            note={note} 
-            toggleImportance={() => toggleImportance(note.id)} 
+            note={note}
+            toggleImportance={() => toggleImportance(note.id)}
           />
         )}
       </ul>
       <form onSubmit={addNote}>
-        <input 
-          value={newNote} 
+        <input
+          value={newNote}
           onChange={handleNoteChange}
         />
         <button type="submit">save</button>

@@ -1,7 +1,7 @@
 
 import './index.css'
 import { useState, useEffect } from 'react'
-import noteServices from './services/notes'
+import noteService from './services/notes'
 import loginService from './services/login'
 
 import Note from './components/Note'
@@ -18,12 +18,21 @@ const App = () => {
   const [user, setUser] = useState(null)
 
   useEffect(() => {
-    noteServices
+    noteService
       .getAll()
       .then(initialNotes => {
         setNotes(initialNotes)
       })
   }, [])
+
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
+    if(loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      noteService.setToken(user.token)
+    }
+  },[])
 
   const addNote = (event) => {
     event.preventDefault()
@@ -32,7 +41,7 @@ const App = () => {
       important: Math.random() < 0.5,
     }
 
-    noteServices
+    noteService
       .create(noteObject)
       .then(returnedNote => {
         setNotes(notes.concat(returnedNote))
@@ -49,7 +58,7 @@ const App = () => {
     const note = notes.find(n => n.id === id)
     const changedNote = { ...note, important: !note.important }
 
-    noteServices
+    noteService
       .update(id, changedNote)
       .then(returnedNote => {
         setNotes(notes.map(n => n.id === id ? returnedNote : n))
@@ -71,7 +80,10 @@ const App = () => {
 
     try {
       const user = await loginService.login({ username, password })
-      noteServices.setToken(user.token)
+      window.localStorage.setItem(
+        'loggedNoteappUser', JSON.stringify(user)
+      )
+      noteService.setToken(user.token)
       setUser(user)
       setUsername('')
       setPassword('')

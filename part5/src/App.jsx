@@ -1,6 +1,7 @@
 
 import { useState, useEffect } from 'react'
 import BlogList from './components/BlogList'
+import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
 import blogService from './services/blogs'
 
@@ -27,6 +28,7 @@ const App = () => {
           <p>
             {user.name} logged in <button onClick={() => handleLogOut()}>logout</button>
           </p>
+          <BlogForm blogs={blogs} setBlogs={setBlogs} />
           <BlogList blogs={blogs} />
         </div>
       )}

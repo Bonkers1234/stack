@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import loginService from '../services/login'
 
 
-const LoginForm = ({ setUser }) => {
+const LoginForm = ({ setUser, notifyWith }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
@@ -22,10 +22,16 @@ const LoginForm = ({ setUser }) => {
       const user = await loginService.login({ username, password })
       window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
       setUser(user)
+      notifyWith(
+        'Successfully logged in!',
+        'info'
+      )
       setUsername('')
       setPassword('')
-    } catch {
-      console.log('Error')
+    } catch(err) {
+      notifyWith(err.response.data.error)
+      setUsername('')
+      setPassword('')
     }
   }
 

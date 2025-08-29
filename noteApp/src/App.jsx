@@ -6,7 +6,10 @@ import loginService from './services/login'
 
 import Note from './components/Note'
 import Notification from './components/Notification'
+import LoginForm from './components/LoginForm'
 import Footer from './components/Footer'
+import Togglable from './components/Togglabe'
+import NoteForm from './components/NoteForm'
 
 const App = () => {
   const [notes, setNotes] = useState([])
@@ -16,6 +19,7 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
+  const [loginVisible, setLoginVisible] = useState(false)
 
   useEffect(() => {
     noteService
@@ -50,7 +54,6 @@ const App = () => {
   }
 
   const handleNoteChange = (event) => {
-    console.log(event.target.value)
     setNewNote(event.target.value)
   }
 
@@ -96,40 +99,27 @@ const App = () => {
   }
 
   const loginForm = () => (
-    <form onSubmit={handleLogin}>
-      <div>
-        <label>
-          username
-          <input
-            type="text"
-            value={username}
-            onChange={({ target }) => setUsername(target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <label>
-          password
-          <input
-            type='text'
-            value={password}
-            onChange={({ target }) => setPassword(target.value)}
-          />
-        </label>
-      </div>
-      <button type='submit'>login</button>
-    </form>
+    <Togglable buttonLabel='login'>
+      <LoginForm
+        username={username}
+        password={password}
+        handleUsernameChange={({ target }) => setUsername(target.value)}
+        handlePasswordChange={({ target }) => setPassword(target.value)}
+        handleLogin={handleLogin}
+      />
+    </Togglable>
   )
 
   const noteForm = () => (
-    <form onSubmit={addNote}>
-      <input
+    <Togglable buttonLabel='new Note'>
+      <NoteForm
+        onSubmit={addNote}
         value={newNote}
-        onChange={handleNoteChange}
+        handleChange={handleNoteChange}
       />
-      <button type="submit">save</button>
-    </form>
+    </Togglable>
   )
+
 
   const notesToShow = showAll
     ? notes

@@ -1,16 +1,19 @@
 
 import './index.css'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import BlogList from './components/BlogList'
 import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import blogService from './services/blogs'
+import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
   const [info, setInfo] = useState(null)
+
+  const blogFormRef = useRef()
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -43,7 +46,14 @@ const App = () => {
           <p>
             {user.name} logged in <button onClick={() => handleLogOut()}>logout</button>
           </p>
-          <BlogForm blogs={blogs} setBlogs={setBlogs} notifyWith={notifyWith} />
+          <Togglable buttonLabel='create new blog' ref={blogFormRef} >
+            <BlogForm
+              blogs={blogs}
+              setBlogs={setBlogs}
+              notifyWith={notifyWith}
+              blogFormRef={blogFormRef}
+            />
+          </Togglable>
           <BlogList blogs={blogs} />
         </div>
       )}

@@ -44,10 +44,10 @@ blogsRouter.delete('/:id', userExtractor, async (request, response) => {
   response.status(204).end()
 })
 
-blogsRouter.put('/:id', async (request, response) => {
+blogsRouter.put('/:id', userExtractor, async (request, response) => {
   const id = request.params.id
   // title, author and url can be discarded since mongoose updates only provided variable if it cant find others
-  const { title, author, url, likes } = request.body
+  const { title, author, url, likes, user } = request.body
 
   if(!Number.isFinite(likes)) {
     return response.status(400).json({ error: 'likes is not a number' })
@@ -59,7 +59,8 @@ blogsRouter.put('/:id', async (request, response) => {
       title,
       author,
       url,
-      likes
+      likes,
+      user
     },
     { new: true, runValidators: true }
   )

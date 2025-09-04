@@ -28,6 +28,26 @@ const App = () => {
     }, 5000)
   }
 
+  const handleLikes = async (blog) => {
+    try {
+      const updatedBlog = await blogService.update(
+        blog.id,
+        {
+          user: blog.user.id,
+          likes: blog.likes + 1,
+          author: blog.author,
+          title: blog.title,
+          url: blog.url
+        }
+      )
+
+      setBlogs(blogs.map(b => b.id === blog.id ? updatedBlog : b))
+      notifyWith(`You liked '${blog.title}'!`, 'info')
+    } catch(err) {
+      notifyWith(err.response.data.error)
+    }
+  }
+
   const handleLogOut = () => {
     localStorage.removeItem('loggedBlogappUser')
     setUser(null)
@@ -54,7 +74,10 @@ const App = () => {
               blogFormRef={blogFormRef}
             />
           </Togglable>
-          <BlogList blogs={blogs} />
+          <BlogList
+            blogs={blogs}
+            handleLikes={handleLikes}
+          />
         </div>
       )}
     </div>

@@ -26,6 +26,8 @@ blogsRouter.post('/', userExtractor, async (request, response) => {
   const savedBlog = await blog.save()
   request.user.blogs = request.user.blogs.concat(savedBlog._id)
   await request.user.save()
+  // populate() on an existing document requires 'await' keyword or else returns an empty object
+  await savedBlog.populate('user', { username: 1, name: 1, id: 1 })
   response.status(201).json(savedBlog)
 })
 

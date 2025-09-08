@@ -48,6 +48,18 @@ const App = () => {
     }
   }
 
+  const handleDelete = async (blog) => {
+    try {
+      if(window.confirm(`Remove blog '${blog.title}' by '${blog.author}'?`)) {
+        await blogService.remove(blog.id)
+      }
+      setBlogs(blogs.filter(b => b.id !== blog.id))
+      notifyWith(`'${blog.title}' has been removed!`, 'info')
+    } catch(err) {
+      notifyWith(err.response.data.error)
+    }
+  }
+
   const handleLogOut = () => {
     localStorage.removeItem('loggedBlogappUser')
     setUser(null)
@@ -76,7 +88,9 @@ const App = () => {
           </Togglable>
           <BlogList
             blogs={blogs}
+            user={user}
             handleLikes={handleLikes}
+            handleDelete={handleDelete}
           />
         </div>
       )}

@@ -39,4 +39,13 @@ export default defineConfig([
       'no-unused-vars': 0,
     },
   },
+  // This is how ESLint is informed that Vitest keywords are globally available in test files.
+  {
+    files: ['**/*.test.{js,jsx}'],
+    languageOptions: {
+      globals: {
+        ...globals.vitest
+      }
+    }
+  }
 ])

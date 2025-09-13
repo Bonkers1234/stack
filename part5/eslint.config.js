@@ -39,4 +39,12 @@ export default defineConfig([
       'no-unused-vars': 0,
     },
   },
+  {
+    files: ['**/*.test.{js,jsx}'],
+    languageOptions: {
+      globals: {
+        ...globals.vitest
+      }
+    }
+  }
 ])

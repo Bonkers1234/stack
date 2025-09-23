@@ -1,6 +1,6 @@
 
 const { test, describe, beforeEach, expect } = require('@playwright/test')
-const { loginWith } = require('./helper')
+const { loginWith, createBlog } = require('./helper')
 
 const user = {
   name: 'testName',
@@ -42,6 +42,33 @@ describe('Blog app', () => {
       await expect(errorDiv).toHaveCSS('color', 'rgb(255, 0, 0)')
 
       await expect(page.getByText(`${user.name} logged in `)).not.toBeVisible()
+    })
+  })
+
+  describe('When logged in', () => {
+    beforeEach(async ({ page }) => {
+      await loginWith(page, user.username, user.password)
+    })
+
+    test('a new blog can be created', async ({ page }) => {
+      await page.getByRole('button', { name: 'create new blog' }).click()
+      await page.getByLabel('title').fill('first title')
+      await page.getByLabel('author').fill('first author')
+      await page.getByLabel('url').fill('first url')
+      await page.getByRole('button', { name: 'create' }).click()
+
+      await expect(page.getByText('first title - first author ')).toBeVisible()
+    })
+
+    test('user can like a blog', async ({ page }) => {
+      await createBlog(page, { title: 'first title', author: 'first author', url: 'first url' })
+      await page.getByRole('button', { name: 'view' }).click()
+
+      await expect(page.getByText('likes 0 ')).toBeVisible()
+
+      await page.getByRole('button', { name: 'like' }).click()
+      
+      await expect(page.getByText('likes 1 ')).toBeVisible()
     })
   })
 })

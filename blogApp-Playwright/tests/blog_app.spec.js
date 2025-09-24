@@ -1,6 +1,6 @@
 
 const { test, describe, beforeEach, expect } = require('@playwright/test')
-const { loginWith, createBlog } = require('./helper')
+const { loginWith, createBlog, likeBlog } = require('./helper')
 
 const user = {
   name: 'testName',
@@ -69,6 +69,77 @@ describe('Blog app', () => {
       await page.getByRole('button', { name: 'like' }).click()
       
       await expect(page.getByText('likes 1 ')).toBeVisible()
+    })
+
+    test('user can delete his blog', async ({ page }) => {
+      await createBlog(page, { title: 'first title', author: 'first author', url: 'first url' })
+      await page.getByRole('button', { name: 'view' }).click()
+      await expect(page.getByText('first title - first author ')).toBeVisible()
+
+
+      await page.on('dialog', dialog => dialog.accept())
+      await page.getByRole('button', { name: 'delete' }).click()
+
+      await expect(page.getByText('first title - first author ')).not.toBeVisible()
+    })
+
+    test('delete button is only visible to the creator', async ({ page, request }) => {
+      await createBlog(page, { title: 'first title', author: 'first author', url: 'first url' })
+      await page.getByRole('button', { name: 'view' }).click()
+      await expect(page.getByText('first title - first author ')).toBeVisible()
+      
+      await page.getByRole('button', { name: 'logout'}).click()
+      await request.post('http://localhost:3001/api/users', {
+        data: {
+          name: 'testName2', 
+          username: 'testUsername2',
+          password: 'testPassword2'
+        }
+      }) 
+
+      await loginWith(page, 'testUsername2', 'testPassword2')
+
+      await page.getByRole('button', { name: 'view' }).click()
+      await expect(page.getByRole('button', { name: 'delete' })).not.toBeVisible()
+    })
+
+    describe('and several blogs exist', () => {
+      beforeEach(async ({ page }) => {
+        await createBlog(page, { title: 'first title', author: 'first author', url: 'first url' })
+        await createBlog(page, { title: 'second title', author: 'second author', url: 'second url' })
+        await createBlog(page, { title: 'third title', author: 'third author', url: 'third url' })
+      })
+
+      test('blogs are sorted according to number of likes', async ({ page }) => {
+        await likeBlog(page, 'third title - third author ', 3)
+        await likeBlog(page, 'second title - second author ', 2)
+        await likeBlog(page, 'first title - first author ', 1)
+
+        await expect(
+          page
+            .getByText('third title - third author ')
+            .locator('..')
+            .getByText('likes 3 ')
+        ).toBeVisible()
+        await expect(
+          page
+            .getByText('second title - second author ')
+            .locator('..')
+            .getByText('likes 2 ')
+        ).toBeVisible()
+        await expect(
+          page
+            .getByText('first title - first author ')
+            .locator('..')
+            .getByText('likes 1 ')
+        ).toBeVisible()
+
+        const titles = await page.getByRole('button', { name: 'hide' }).all()
+
+        for(let i = 0; i < titles.length; i++) {
+          await expect(titles[i].locator('..').getByText(`likes ${titles.length - i} `)).toBeVisible()
+        }
+      })
     })
   })
 })

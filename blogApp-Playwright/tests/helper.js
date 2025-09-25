@@ -15,7 +15,6 @@ const createBlog = async (page, blog) => {
 }
 
 const likeBlog = async (page, text, likesNumber) => {
-  // await page.getByRole('button', { name: 'view' }).click()
   await page.getByText(`${text}`).getByRole('button', { name: 'view' }).click()
   const likeButton = await page.getByText(`${text}`).locator('..').getByRole('button', { name: 'like' })
   for(let i = 0; i < likesNumber; i++) {

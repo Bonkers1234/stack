@@ -134,11 +134,11 @@ describe('Blog app', () => {
             .getByText('likes 1 ')
         ).toBeVisible()
 
-        const titles = await page.getByRole('button', { name: 'hide' }).all()
+        const blogs = await page.locator('div.blog').all()
 
-        for(let i = 0; i < titles.length; i++) {
-          await expect(titles[i].locator('..').getByText(`likes ${titles.length - i} `)).toBeVisible()
-        }
+        await expect(blogs[0]).toContainText('third title - third author ')
+        await expect(blogs[1]).toContainText('second title - second author ')
+        await expect(blogs[2]).toContainText('first title - first author ')
       })
     })
   })

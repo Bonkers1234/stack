@@ -2,10 +2,10 @@ import AnecdoteForm from './components/AnecdoteForm'
 import Notification from './components/Notification'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { getAll, vote } from './services/anecdotes'
-import { useNotificationDispatch } from './contexts/NotificationContext'
+import { useNotify } from './contexts/NotificationContext'
 
 const App = () => {
-  const notificationDispatch = useNotificationDispatch()
+  const notifyWith = useNotify()
 
   const result = useQuery({
     queryKey: ['anecdotes'],
@@ -21,13 +21,7 @@ const App = () => {
     onSuccess: (updatedAnecdote) => {
       const anecdotes = queryClient.getQueryData(['anecdotes'])
       queryClient.setQueryData(['anecdotes'], anecdotes.map(a => a.id !== updatedAnecdote.id ? a : updatedAnecdote))
-      notificationDispatch({
-        type: 'SET',
-        payload: `You voted for '${updatedAnecdote.content}'`
-      })
-      setTimeout(() => {
-        notificationDispatch({ type: 'RESET' })
-      }, 5000)
+      notifyWith(`You voted for '${updatedAnecdote.content}'`)
     }
   })
 

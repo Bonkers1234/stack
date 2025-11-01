@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import { Table, Form, Button, InputGroup } from 'react-bootstrap'
 
 const useField = (type) => {
   const [value, setValue] = useState('')
@@ -58,21 +59,49 @@ const App = () => {
   }
 
   return (
-    <div>
+    <div className='container'>
       <h2>notes</h2>
-      <form onSubmit={handleNoteSubmit}>
-        <input {...content} />
-        <button>create</button>
-      </form>
-      {notes.map(n => <p key={n.id}>{n.content}</p>)}
+      <Form onSubmit={handleNoteSubmit}>
+        <Form.Group className='w-25'>
+          <Form.Label>Note:</Form.Label>
+          <InputGroup className='my-1'>
+            <Form.Control {...content} />
+            <Button  variant='primary' type='submit'>create</Button>
+          </InputGroup>
+        </Form.Group>
+      </Form>
+      <Table striped className='w-50'>
+        <tbody>
+         {notes.map(n => 
+            <tr key={n.id}>
+              <td>
+                {n.content}
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </Table>
 
       <h2>persons</h2>
-      <form onSubmit={handlePersonSubmit}>
-        name <input {...name} /> <br/>
-        number <input {...number} />
-        <button>create</button>
-      </form>
-      {persons.map(n => <p key={n.id}>{n.name} {n.number}</p>)}
+      <Form onSubmit={handlePersonSubmit}>
+        <Form.Group className='w-25'>
+          <Form.Label>name:</Form.Label>
+          <Form.Control {...name} />
+          <Form.Label>number:</Form.Label>
+          <Form.Control {...number} />
+          <Button className='my-2' variant='primary' type='submit'>create</Button>
+        </Form.Group>        
+      </Form>
+      <Table striped className='w-50'>
+        <tbody>
+          {persons.map(n => 
+            <tr key={n.id}>
+              <td>{n.name}</td>
+              <td>{n.number}</td>
+            </tr>
+          )}
+        </tbody>
+      </Table>
     </div>
   )
 }

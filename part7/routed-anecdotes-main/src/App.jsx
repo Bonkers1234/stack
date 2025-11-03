@@ -2,17 +2,38 @@
 import { useState } from 'react'
 import { Routes, Route, Link, useMatch, useNavigate } from "react-router-dom"
 import { useField } from './hooks'
+import { Navbar , Nav } from 'react-bootstrap'
 
 const Menu = () => {
   const padding = {
-    paddingRight: 5
+    paddingRight: 5,
+    color: 'white',
+    textDecoration: 'none',
+    margin: '0px 15px'
   }
+
   return (
-    <div>
-      <Link style={padding} to='/'>anecdotes</Link>
-      <Link style={padding} to='/create'>create new</Link>
-      <Link style={padding} to='/about'>about</Link>
-    </div>
+    <Navbar collapseOnSelect className='rounded' expand="lg" bg="info" variant="dark">
+      <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+      <Navbar.Collapse id="responsive-navbar-nav">
+        <Nav className='me-auto'>
+          <Nav.Link href='#' as='span'>
+            <Link style={padding} to='/'>anecdotes</Link>
+          </Nav.Link>
+          <Nav.Link href='#' as='span'>
+            <Link style={padding} to='/create'>create new</Link>
+          </Nav.Link>
+          <Nav.Link href='#' as='span'>
+            <Link style={padding} to='/about'>about</Link>
+          </Nav.Link>
+        </Nav>
+      </Navbar.Collapse>
+    </Navbar>
+    // <div>
+    //   <Link style={padding} to='/'>anecdotes</Link>
+    //   <Link style={padding} to='/create'>create new</Link>
+    //   <Link style={padding} to='/about'>about</Link>
+    // </div>
   )
 }
 
@@ -178,7 +199,7 @@ const App = () => {
     : null
 
   return (
-    <div>
+    <div className='container'>
       <h1>Software anecdotes</h1>
       <Menu />    
       <Notification notification={notification} />

@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import { Routes, Route, Link, useMatch, useNavigate } from "react-router-dom"
 import { useField } from './hooks'
-import { Navbar , Nav, Form, Button } from 'react-bootstrap'
+import { Navbar , Nav, Form, Button, Container, Row, Col } from 'react-bootstrap'
 
 const Menu = () => {
   const padding = {
@@ -105,18 +105,24 @@ const CreateNew = (props) => {
   return (
     <div>
       <h2>create a new anecdote</h2>
-      <Form onSubmit={handleSubmit}>
-        <Form.Group className='w-25'>
-          <Form.Label>content:</Form.Label>
-          <Form.Control name='content' {...content.field} />
-          <Form.Label>author:</Form.Label>
-          <Form.Control name='author' {...author.field} />
-          <Form.Label>url for more info:</Form.Label>
-          <Form.Control name='info' {...info.field} />
-          <Button className='my-1' variant='primary' type='submit'>create</Button>
-        </Form.Group>
-      </Form>
-        <Button className='my-1' variant='primary' onClick={handleReset}>reset</Button>
+      <Container>
+        <Row lg={2}>
+          <Col>
+            <Form onSubmit={handleSubmit}>
+              <Form.Group>
+                <Form.Label>content:</Form.Label>
+                <Form.Control name='content' {...content.field} />
+                <Form.Label>author:</Form.Label>
+                <Form.Control name='author' {...author.field} />
+                <Form.Label>url for more info:</Form.Label>
+                <Form.Control name='info' {...info.field} />
+                <Button className='my-1' variant='primary' type='submit'>create</Button>
+              </Form.Group>
+            </Form>
+              <Button className='my-1' variant='primary' onClick={handleReset}>reset</Button>
+          </Col>
+        </Row>
+      </Container>
     </div>
   )
 

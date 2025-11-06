@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+import { Form, InputGroup, Button, Container, Row, Col } from 'react-bootstrap'
 
 const useField = (type) => {
   const [value, setValue] = useState('')
@@ -46,7 +47,7 @@ const Country = ({ country }) => {
   }
 
   return (
-    <div>
+    <div className='mx-auto my-5'>
       <h3>{country.data.name.common} </h3>
       <div>capital {country.data.capital[0]} </div>
       <div>population {country.data.population}</div> 
@@ -66,13 +67,22 @@ const App = () => {
   }
 
   return (
-    <div>
-      <form onSubmit={fetch}>
-        <input {...nameInput} />
-        <button>find</button>
-      </form>
-
-      <Country country={country} />
+    <div className='my-5'>
+      <Container>
+        <Row lg={2}>
+          <Form className='mx-auto' onSubmit={fetch}>
+            <Form.Group>
+              <InputGroup>
+                <Form.Control {...nameInput} />
+                <Button>find</Button>
+              </InputGroup>
+            </Form.Group>
+          </Form>
+        </Row>
+        <Row lg={6} sm={4} xs={3}>
+          <Country country={country} />
+        </Row>
+      </Container>
     </div>
   )
 }

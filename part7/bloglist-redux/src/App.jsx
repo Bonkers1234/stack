@@ -1,4 +1,3 @@
-
 import './index.css'
 import { useState, useEffect, useRef } from 'react'
 import BlogList from './components/BlogList'
@@ -16,12 +15,10 @@ const App = () => {
   const blogFormRef = useRef()
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs(blogs)
-    )
+    blogService.getAll().then((blogs) => setBlogs(blogs))
   }, [])
 
-  const notifyWith = (text, type='error') => {
+  const notifyWith = (text, type = 'error') => {
     setInfo({ text, type })
     setTimeout(() => {
       setInfo(null)
@@ -30,32 +27,29 @@ const App = () => {
 
   const handleLikes = async (blog) => {
     try {
-      const updatedBlog = await blogService.update(
-        blog.id,
-        {
-          user: blog.user.id,
-          likes: blog.likes + 1,
-          author: blog.author,
-          title: blog.title,
-          url: blog.url
-        }
-      )
+      const updatedBlog = await blogService.update(blog.id, {
+        user: blog.user.id,
+        likes: blog.likes + 1,
+        author: blog.author,
+        title: blog.title,
+        url: blog.url,
+      })
 
-      setBlogs(blogs.map(b => b.id === blog.id ? updatedBlog : b))
+      setBlogs(blogs.map((b) => (b.id === blog.id ? updatedBlog : b)))
       notifyWith(`You liked '${blog.title}'!`, 'info')
-    } catch(err) {
+    } catch (err) {
       notifyWith(err.response.data.error)
     }
   }
 
   const handleDelete = async (blog) => {
     try {
-      if(window.confirm(`Remove blog '${blog.title}' by '${blog.author}'?`)) {
+      if (window.confirm(`Remove blog '${blog.title}' by '${blog.author}'?`)) {
         await blogService.remove(blog.id)
       }
-      setBlogs(blogs.filter(b => b.id !== blog.id))
+      setBlogs(blogs.filter((b) => b.id !== blog.id))
       notifyWith(`'${blog.title}' has been removed!`, 'info')
-    } catch(err) {
+    } catch (err) {
       notifyWith(err.response.data.error)
     }
   }
@@ -63,10 +57,7 @@ const App = () => {
   const handleLogOut = () => {
     localStorage.removeItem('loggedBlogappUser')
     setUser(null)
-    notifyWith(
-      'Successfully logged out',
-      'info'
-    )
+    notifyWith('Successfully logged out', 'info')
   }
 
   return (
@@ -76,9 +67,10 @@ const App = () => {
       {user && (
         <div>
           <p>
-            {user.name} logged in <button onClick={() => handleLogOut()}>logout</button>
+            {user.name} logged in{' '}
+            <button onClick={() => handleLogOut()}>logout</button>
           </p>
-          <Togglable buttonLabel='create new blog' ref={blogFormRef} >
+          <Togglable buttonLabel="create new blog" ref={blogFormRef}>
             <BlogForm
               blogs={blogs}
               setBlogs={setBlogs}

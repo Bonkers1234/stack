@@ -1,11 +1,15 @@
 
 import { useState } from 'react'
 import blogService from '../services/blogs'
+import { useDispatch } from 'react-redux'
+import { setNotification } from '../reducers/notificationReducer'
 
-const BlogForm = ({ blogs, setBlogs, notifyWith, blogFormRef }) => {
+const BlogForm = ({ blogs, setBlogs, blogFormRef }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
+
+  const dispatch = useDispatch()
 
   const clearFields = () => {
     setTitle('')
@@ -24,14 +28,14 @@ const BlogForm = ({ blogs, setBlogs, notifyWith, blogFormRef }) => {
       })
 
       setBlogs(blogs.concat(responseBlog))
-      notifyWith(
+      dispatch(setNotification(
         `A new blog '${responseBlog.title}' by '${responseBlog.author}' has been added!`,
         'info'
-      )
+      ))
       blogFormRef.current.toggleVisibility()
       clearFields()
     } catch(err) {
-      notifyWith(err.response.data.error)
+      dispatch(setNotification(err.response.data.error))
       clearFields()
     }
   }

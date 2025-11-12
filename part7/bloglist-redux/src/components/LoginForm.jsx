@@ -1,11 +1,15 @@
 
 import { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import loginService from '../services/login'
+import { setNotification } from '../reducers/notificationReducer'
 
 
-const LoginForm = ({ setUser, notifyWith }) => {
+const LoginForm = ({ setUser }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+
+  const dispatch = useDispatch()
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
@@ -22,14 +26,14 @@ const LoginForm = ({ setUser, notifyWith }) => {
       const user = await loginService.login({ username, password })
       window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
       setUser(user)
-      notifyWith(
+      dispatch(setNotification(
         'Successfully logged in!',
         'info'
-      )
+      ))
       setUsername('')
       setPassword('')
     } catch(err) {
-      notifyWith(err.response.data.error)
+      dispatch(setNotification(err.response.data.error))
       setUsername('')
       setPassword('')
     }

@@ -1,6 +1,6 @@
 import './index.css'
 import { useState, useEffect, useRef } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setNotification } from './reducers/notificationReducer'
 import BlogList from './components/BlogList'
 import BlogForm from './components/BlogForm'
@@ -8,9 +8,10 @@ import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import blogService from './services/blogs'
 import Togglable from './components/Togglable'
+import { setBackendBlogs } from './reducers/blogsReducer'
 
 const App = () => {
-  const [blogs, setBlogs] = useState([])
+  const blogs = useSelector(({ blogs }) => blogs)
   const [user, setUser] = useState(null)
 
   const dispatch = useDispatch()
@@ -18,8 +19,8 @@ const App = () => {
   const blogFormRef = useRef()
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs))
-  }, [])
+    dispatch(setBackendBlogs())
+  }, [dispatch])
 
   const handleLikes = async (blog) => {
     try {
@@ -68,8 +69,6 @@ const App = () => {
           </p>
           <Togglable buttonLabel="create new blog" ref={blogFormRef}>
             <BlogForm
-              blogs={blogs}
-              setBlogs={setBlogs}
               blogFormRef={blogFormRef}
             />
           </Togglable>

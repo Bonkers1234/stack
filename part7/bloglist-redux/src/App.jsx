@@ -6,9 +6,8 @@ import BlogList from './components/BlogList'
 import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
-import blogService from './services/blogs'
 import Togglable from './components/Togglable'
-import { setBackendBlogs } from './reducers/blogsReducer'
+import { likeBlog, removeBlog, setBackendBlogs } from './reducers/blogsReducer'
 
 const App = () => {
   const blogs = useSelector(({ blogs }) => blogs)
@@ -23,32 +22,11 @@ const App = () => {
   }, [dispatch])
 
   const handleLikes = async (blog) => {
-    try {
-      const updatedBlog = await blogService.update(blog.id, {
-        user: blog.user.id,
-        likes: blog.likes + 1,
-        author: blog.author,
-        title: blog.title,
-        url: blog.url,
-      })
-
-      setBlogs(blogs.map((b) => (b.id === blog.id ? updatedBlog : b)))
-      dispatch(setNotification(`You liked '${blog.title}'!`, 'info'))
-    } catch (err) {
-      dispatch(setNotification(err.response.data.error))
-    }
+    dispatch(likeBlog(blog))
   }
 
   const handleDelete = async (blog) => {
-    try {
-      if (window.confirm(`Remove blog '${blog.title}' by '${blog.author}'?`)) {
-        await blogService.remove(blog.id)
-      }
-      setBlogs(blogs.filter((b) => b.id !== blog.id))
-      dispatch(setNotification(`'${blog.title}' has been removed!`, 'info'))
-    } catch (err) {
-      dispatch(setNotification(err.response.data.error))
-    }
+    dispatch(removeBlog(blog))
   }
 
   const handleLogOut = () => {

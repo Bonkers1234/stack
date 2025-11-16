@@ -1,11 +1,10 @@
 
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import loginService from '../services/login'
-import { setNotification } from '../reducers/notificationReducer'
+import { setUser, logUser } from '../reducers/userReducer'
 
 
-const LoginForm = ({ setUser }) => {
+const LoginForm = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
@@ -15,28 +14,16 @@ const LoginForm = ({ setUser }) => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if(loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-      setUser(user)
+      dispatch(setUser(user))
     }
-  },[setUser])
+  },[dispatch])
 
   const handleSubmit = async (event) => {
     event.preventDefault()
 
-    try {
-      const user = await loginService.login({ username, password })
-      window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
-      setUser(user)
-      dispatch(setNotification(
-        'Successfully logged in!',
-        'info'
-      ))
-      setUsername('')
-      setPassword('')
-    } catch(err) {
-      dispatch(setNotification(err.response.data.error))
-      setUsername('')
-      setPassword('')
-    }
+    dispatch(logUser({ username, password }))
+    setUsername('')
+    setPassword('')
   }
 
   return (

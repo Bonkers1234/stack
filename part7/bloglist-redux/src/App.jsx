@@ -8,9 +8,10 @@ import LoginForm from './components/LoginForm'
 import Togglable from './components/Togglable'
 import { likeBlog, removeBlog, setBackendBlogs } from './reducers/blogsReducer'
 import { logOutUser } from './reducers/userReducer'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useMatch } from 'react-router-dom'
 import Navigation from './components/Navigation'
 import Users from './components/Users'
+import User from './components/User'
 
 const App = () => {
   const user = useSelector(({ user }) => user)
@@ -41,6 +42,7 @@ const App = () => {
       {!user && <LoginForm />}
       {user && (
         <div>
+          <h2><strong>BlogApp</strong></h2>
           <p>
             {user.name} logged in{' '}
             <button onClick={() => handleLogOut()}>logout</button>
@@ -54,6 +56,7 @@ const App = () => {
                 handleDelete={handleDelete}
               />}
             />
+            <Route path='/users/:id' element={<User />} />
             <Route path='/users' element={<Users />} />
           </Routes>
 

@@ -75,13 +75,14 @@ const App = () => {
             />
             <Route path='/users/:id' element={<User />} />
             <Route path='/users' element={<Users />} />
-          </Routes>
-
-          <Togglable buttonLabel="create new blog" ref={blogFormRef}>
-            <BlogForm
-              blogFormRef={blogFormRef}
+            <Route path='/create' element={
+              <Togglable buttonLabel="create new blog" ref={blogFormRef}>
+                <BlogForm
+                  blogFormRef={blogFormRef}
+                />
+              </Togglable>}
             />
-          </Togglable>
+          </Routes>
         </div>
       )}
     </div>

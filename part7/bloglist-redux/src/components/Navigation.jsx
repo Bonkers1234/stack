@@ -13,6 +13,7 @@ const Navigation = () => {
     <div>
       <Link style={padding} to='/'>blogs</Link>
       <Link style={padding} to='/users'>users</Link>
+      <Link style={padding} to='/create'>create</Link>
     </div>
   )
 }

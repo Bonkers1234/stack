@@ -75,4 +75,19 @@ blogsRouter.put('/:id', userExtractor, async (request, response) => {
   response.json(updatedBlog)
 })
 
+blogsRouter.post('/:id/comments', userExtractor, async (request, response) => {
+  const id = request.params.id
+
+  const { comment } = request.body
+
+  // we dont need to use 'findByIdAndUpdate' for 'comments' field to be created, since after changing Blog Schema and executing code below once
+  // mongoDB automatically 'adds' an empty 'comments' array to every Blog Object
+  const blog = await Blog.findById(id)
+  blog.comments = blog.comments.concat(comment)
+
+  await blog.save()
+
+  response.json(blog)
+})
+
 module.exports = blogsRouter

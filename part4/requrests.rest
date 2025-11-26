@@ -51,3 +51,24 @@ Content-Type: application/json
   "username": "Test1",
   "password": "Test1"
 }
+
+###
+POST http://localhost:3001/api/blogs/689f4fc8f93013d3225786fa/comments
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlRlc3QxIiwiaWQiOiI2ODlkZjVlN2FmOWIwZDQyZWQ5NmJlYzIiLCJpYXQiOjE3NjQxNzE1MzAsImV4cCI6MTc2NDE4MjMzMH0.FJM0l2ufEzAq-1gN5M7t6h6t0MXeBAtJ9_lFlkQjda4
+
+{
+  "comment": "test comment"
+}
+
+###
+POST http://localhost:3001/api/blogs
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlRlc3QxIiwiaWQiOiI2ODlkZjVlN2FmOWIwZDQyZWQ5NmJlYzIiLCJpYXQiOjE3NjQxNzE1MzAsImV4cCI6MTc2NDE4MjMzMH0.FJM0l2ufEzAq-1gN5M7t6h6t0MXeBAtJ9_lFlkQjda4
+
+{
+  "title": "COMMENT TEST",
+  "author": "Test Author2",
+  "url": "testurl.com2",
+  "likes": 5
+}

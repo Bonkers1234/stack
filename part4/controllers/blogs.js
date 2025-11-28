@@ -79,6 +79,9 @@ blogsRouter.post('/:id/comments', userExtractor, async (request, response) => {
   const id = request.params.id
 
   const { comment } = request.body
+  if(!comment) {
+    return response.status(400).json({ error: 'comment too short, needs at least 1 cheracter' })
+  }
 
   // we dont need to use 'findByIdAndUpdate' for 'comments' field to be created, since after changing Blog Schema and executing code below once
   // mongoDB automatically 'adds' an empty 'comments' array to every Blog Object

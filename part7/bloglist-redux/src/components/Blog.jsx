@@ -35,7 +35,7 @@ const Blog = ({ blog, user, handleLikes, handleDelete }) => {
               {blog.title} - {blog.author} <button onClick={toggleVisibility}>hide</button>
             </div>
             <div>
-              {blog.url}
+              <a href={`https://${blog.url}`}>{blog.url}</a>
             </div>
             <div>
               likes {blog.likes} <button onClick={() => handleLikes(blog)}>like</button>

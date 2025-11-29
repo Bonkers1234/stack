@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { commentBlog } from '../reducers/blogsReducer'
+import { Form, Button, InputGroup } from 'react-bootstrap'
 
 
 const BlogDetail = ({ user, handleLikes, handleDelete }) => {
@@ -40,10 +41,14 @@ const BlogDetail = ({ user, handleLikes, handleDelete }) => {
       </div>
       <div>
         <h3>Comments:</h3>
-        <form onSubmit={handleSubmit}>
-          <input type="text" value={comment} onChange={({ target }) => setComment(target.value)} />
-          <button type='submit'>add comment</button>
-        </form>
+        <Form onSubmit={handleSubmit}>
+          <Form.Group className='w-25'>
+            <InputGroup className='my-1'>
+              <Form.Control type='text' value={comment} onChange={({ target }) => setComment(target.value)} />
+              <Button variant='primary' type='submit'>add comment</Button>
+            </InputGroup>
+          </Form.Group>
+        </Form>
         {blog.comments && <ul>
           {blog.comments.map(c => <li key={c}>{c}</li>)}
         </ul>}

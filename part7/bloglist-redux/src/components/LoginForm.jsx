@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { setUser, logUser } from '../reducers/userReducer'
 import { useNavigate } from 'react-router-dom'
+import { Form, Button } from 'react-bootstrap'
 
 
 const LoginForm = () => {
@@ -30,30 +31,16 @@ const LoginForm = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit}>
       <h2>log in to application</h2>
-      <div>
-        <label>
-          username
-          <input
-            type="text"
-            value={username}
-            onChange={({ target }) => setUsername(target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <label>
-          password
-          <input
-            type="password"
-            value={password}
-            onChange={({ target }) => setPassword(target.value)}
-          />
-        </label>
-      </div>
-      <button type='submit'>login</button>
-    </form>
+      <Form.Group className='w-25'>
+        <Form.Label>username:</Form.Label>
+        <Form.Control type='text' value={username} onChange={({ target }) => setUsername(target.value)} />
+        <Form.Label>password:</Form.Label>
+        <Form.Control type='password' value={password} onChange={({ target }) => setPassword(target.value)} />
+        <Button className='my-2' variant='primary' type='submit'>login</Button>
+      </Form.Group>
+    </Form>
   )
 }
 

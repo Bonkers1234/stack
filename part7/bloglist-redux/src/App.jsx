@@ -13,6 +13,7 @@ import Navigation from './components/Navigation'
 import Users from './components/Users'
 import User from './components/User'
 import BlogDetail from './components/BlogDetail'
+import { Container, Row, Col } from 'react-bootstrap'
 
 const App = () => {
   const user = useSelector(({ user }) => user)
@@ -40,52 +41,62 @@ const App = () => {
   }
 
   return (
-    <div className='container'>
-      <Notification />
-      {!user && <LoginForm />}
-      {user && (
-        <div>
-          <h2><strong>BlogApp</strong></h2>
-          <p>
-            {user.name} logged in{' '}
-            <button onClick={() => handleLogOut()}>logout</button>
-          </p>
-          <Navigation />
-          <Routes>
-            <Route path='/' element={
-              <BlogList
-                user={user}
-                handleLikes={handleLikes}
-                handleDelete={handleDelete}
-              />}
-            />
-            <Route path='/blogs' element={
-              <BlogList
-                user={user}
-                handleLikes={handleLikes}
-                handleDelete={handleDelete}
-              />}
-            />
-            <Route path='/blogs/:id' element={
-              <BlogDetail
-                user={user}
-                handleLikes={handleLikes}
-                handleDelete={handleDelete}
-              />}
-            />
-            <Route path='/users/:id' element={<User />} />
-            <Route path='/users' element={<Users />} />
-            <Route path='/create' element={
-              <Togglable buttonLabel="create new blog" ref={blogFormRef}>
-                <BlogForm
-                  blogFormRef={blogFormRef}
+    <Container className='my-5 pt-5'>
+      <Row>
+        <Col>
+          <Notification />
+          {!user && <LoginForm />}
+          {user && (
+            <div>
+              <h2><strong>BlogApp</strong></h2>
+              <p>
+                {user.name} logged in{' '}
+                <button onClick={() => handleLogOut()}>logout</button>
+              </p>
+              <Navigation />
+              <Routes>
+                <Route path='/' element={
+                  <BlogList
+                    user={user}
+                    handleLikes={handleLikes}
+                    handleDelete={handleDelete}
+                  />}
                 />
-              </Togglable>}
-            />
-          </Routes>
-        </div>
-      )}
-    </div>
+                <Route path='/blogs' element={
+                  <BlogList
+                    user={user}
+                    handleLikes={handleLikes}
+                    handleDelete={handleDelete}
+                  />}
+                />
+                <Route path='/blogs/:id' element={
+                  <BlogDetail
+                    user={user}
+                    handleLikes={handleLikes}
+                    handleDelete={handleDelete}
+                  />}
+                />
+                <Route path='/users/:id' element={<User />} />
+                <Route path='/users' element={<Users />} />
+                <Route path='/create' element={
+                  <Container>
+                    <Row>
+                      <Col xs={12} md={6} lg={4}>
+                        <Togglable buttonLabel="create new blog" ref={blogFormRef}>
+                          <BlogForm
+                            blogFormRef={blogFormRef}
+                          />
+                        </Togglable>
+                      </Col>
+                    </Row>
+                  </Container>}
+                />
+              </Routes>
+            </div>
+          )}
+        </Col>
+      </Row>
+    </Container>
   )
 }
 

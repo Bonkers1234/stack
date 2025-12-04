@@ -13,7 +13,7 @@ import Navigation from './components/Navigation'
 import Users from './components/Users'
 import User from './components/User'
 import BlogDetail from './components/BlogDetail'
-import { Container, Row, Col } from 'react-bootstrap'
+import { Container, Row, Col, Button } from 'react-bootstrap'
 
 const App = () => {
   const user = useSelector(({ user }) => user)
@@ -51,7 +51,7 @@ const App = () => {
               <h2><strong>BlogApp</strong></h2>
               <p>
                 {user.name} logged in{' '}
-                <button onClick={() => handleLogOut()}>logout</button>
+                <Button variant='primary' onClick={() => handleLogOut()}>logout</Button>
               </p>
               <Navigation />
               <Routes>

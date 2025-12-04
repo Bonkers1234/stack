@@ -28,16 +28,17 @@ const BlogDetail = ({ user, handleLikes, handleDelete }) => {
     <div>
       <div>
         <h2>{blog.title} - by {blog.author}</h2>
-        <div>
+        <div className='mb-2'>
           <a href={`https://${blog.url}`}>{blog.url}</a>
         </div>
-        <div>
-          likes {blog.likes} <button onClick={() => handleLikes(blog)}>like</button>
+        <div className='d-flex align-items-center'>
+          <span className='me-3'>likes {blog.likes}</span>
+          <Button variant='success' onClick={() => handleLikes(blog)}>like</Button>
         </div>
         <div>
           {blog.user.name}
         </div>
-        {canRemove && <button onClick={() => handleDelete(blog)}>delete</button>}
+        {canRemove && <Button className='my-1' variant='danger' onClick={() => handleDelete(blog)}>delete</Button>}
       </div>
       <div>
         <h3>Comments:</h3>
